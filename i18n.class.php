@@ -133,9 +133,11 @@ class i18n {
             $config = [];
             foreach ($reversed as $langCode) {
                 $new_config = self::parseLangFile(self::getLangFilePath($langCode, $this->filePath));
-                $config = array_merge($config, $new_config);
+//                $config = array_merge($config, $new_config);
+                foreach($new_config as $k => $v) {
+                    $config[$k] = array_merge($config[$k] ? : [], $v);
+                }
             }
-
             $compiled = "<?php class " . $this->prefix . " {\n";
             $compiled .= $this->compile($config);
             $compiled .= 'public static function __callStatic($string, $args) {' . "\n";
